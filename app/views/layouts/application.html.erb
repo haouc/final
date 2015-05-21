@@ -15,10 +15,10 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
             <big>Tweet</big>
-            <sub><small>alpha</small></sub>
+            <sub><small>milestone_II</small></sub>
           </a>
         </div>
-        <ul class="nav navbar-nav" style="margin-left:50px">
+        <ul class="nav navbar-nav" style="margin-left:30px">
           <li><a href="/">Home</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -26,7 +26,11 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
+            <% if cookies["user_id"] == nil %>
               <li><a href="">Account Settings</a></li>
+              <% else %>
+              <li><%= link_to "Account Settings", user_path(cookies["user_id"]) %></li>
+              <% end %>
               <li><a href="">Account Safety</a></li>
               <li><a href="">Message Center</a></li>
             </ul>
