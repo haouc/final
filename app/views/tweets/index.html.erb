@@ -1,0 +1,123 @@
+<div class="row">
+  <div class="col-xs-1">
+    <!-- left mav -->
+  </div>
+  <div class="col-xs-8">
+    <div class="jumbotron">
+      <%= form_tag tweets_path, method:"post" do %>
+      <label for="post_tweet">What news do you want to share with others?</label>
+      <br>
+      <textarea name="post_tweet" class="post-tweet" rows="5"></textarea>
+      <button class="btn btn-success">POST</button>
+      <% end %>
+    </div>
+    <!---list tweets -->
+    <% @tweets.each do |tweet| %>
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-xs-2">
+          <%= image_tag(User.find_by(id: tweet.user_id).image, class: "protrait")%>
+        </div>
+        <div class="col-xs-8">
+          <h4><%= User.find_by(id: tweet.user_id).username %></h4>
+          <br>
+          <%= tweet.content %>
+          <br>
+          <% if tweet.image.present? %>
+          <%= image_tag tweet.image, class: "tweet-image" %>
+          <% end %>
+          <br><br>
+          <small><%= Time.at(tweet.date) %></small>
+        </div>
+        <% if tweet.user_id == cookies["user_id"].to_i %>
+        <div class="col-xs-1">
+          <%= link_to 'Edit', edit_tweet_path(tweet.id) %>
+        </div>
+        <div class="col-xs-1">
+          <%= link_to 'Delete', tweet_path(tweet.id), method: :delete %>
+        </div>
+        <% end %>
+      </div>
+      <hr>
+      <div class="col-xs-3">
+        <a href="#" >Like</a>
+      </div>
+      <div class="col-xs-3">
+        <a class="comment" id="<%= tweet.id %>">Comment</a>
+      </div>
+      <div class="col-xs-3">
+        Favourite
+      </div>
+      <div class="col-xs-3">
+        Share
+      </div>
+      <br>
+
+      <!-- hidden part for comments -->
+      <div class="comment-list-<%= tweet.id %>" style="display:none;margin-top:20px">
+        <%= form_tag tweet_comments_path(tweet.id), method:"post" do %>
+        <label for="comment">
+          <%= image_tag(cookies["user_image"], class: "protrait")%>
+          <%= cookies["username"] %>
+        </label>
+        <br><br>
+        <input name="comment" style="width:80%">
+        <button class="btn btn-success">Comment</button>
+        <% end %>
+        <% comments = Comment.where(tweet_id: tweet.id).order('date desc') %>
+        <% if ! comments.nil? %>
+        <% comments.each do |comment| %>
+        <hr>
+        <div class="row">
+          <div class="col-xs-1">
+            <%= image_tag(User.find_by(id: comment.user_id).image, class: "protrait")%>
+          </div>
+          <div class="col-xs-10">
+            <h4>
+              <%= User.find_by(id: comment.user_id).username %>
+              <div class="pull-right">
+                <small><%= Time.at(tweet.date) %></small>
+              </div>
+            </h4>
+            <br>
+            <%= comment.content %>
+            <br>
+          </div>
+          <% if comment.user_id == cookies["user_id"].to_i %>
+          <div class="col-xs-1">
+            <%= link_to 'Delete', tweet_comment_path(tweet.id ,comment.id), method: :delete %>
+          </div>
+          <% end %>
+        </div>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+  <!-- right nav bar -->
+  <div class="col-xs-3">
+    <% if cookies["user_id"].present? %>
+    <div class="jumbotron">
+      <%= image_tag(cookies["user_image"], class: "protrait")%>
+      <%= cookies["username"]%>
+      <hr>
+      <li>following</li>
+      <li>follower</li>
+      <li>tweets</li>
+    </div>
+    <% end %>
+  </div>
+</div>
+</div>
+
+
+
+<script>
+  $(function(){
+    $('.comment').click(function(){
+      $(".comment-list-"+$(this).attr("id")).toggle();
+    });
+  });
+</script>
