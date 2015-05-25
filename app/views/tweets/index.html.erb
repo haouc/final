@@ -57,8 +57,8 @@
       <div class="comment-list-<%= tweet.id %>" style="display:none;margin-top:20px">
         <%= form_tag tweet_comments_path(tweet.id), method:"post" do %>
         <label for="comment">
-          <%= image_tag(cookies["user_image"], class: "protrait")%>
-          <%= cookies["username"] %>
+          <%= image_tag(session["user_image"], class: "protrait")%>
+          <%= session["username"] %>
         </label>
         <br><br>
         <input name="comment" style="width:80%">
@@ -98,10 +98,10 @@
 
   <!-- right nav bar -->
   <div class="col-xs-3">
-    <% if cookies["user_id"].present? %>
+    <% if session["user_id"].present? %>
     <div class="jumbotron">
-      <%= image_tag(cookies["user_image"], class: "protrait")%>
-      <%= cookies["username"]%>
+      <%= image_tag(session["user_image"], class: "protrait")%>
+      <%= session["username"]%>
       <hr>
       <li>following</li>
       <li>follower</li>

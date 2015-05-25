@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
 		comment.content = params[:comment]
 		comment.tweet_id = params[:tweet_id]
 		comment.date = DateTime.now.to_i
-		comment.user_id = cookies["user_id"]
+		comment.user_id = session["user_id"]
 		comment.save
 		redirect_to root_path
 	end

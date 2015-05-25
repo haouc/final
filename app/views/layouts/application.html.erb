@@ -26,10 +26,10 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-            <% if cookies["user_id"] == nil %>
+            <% if session["user_id"] == nil %>
               <li><a href="">Account Settings</a></li>
               <% else %>
-              <li><%= link_to "Account Settings", user_path(cookies["user_id"]) %></li>
+              <li><%= link_to "Account Settings", user_path(session["user_id"]) %></li>
               <% end %>
               <li><a href="">Account Safety</a></li>
               <li><a href="">Message Center</a></li>
@@ -41,8 +41,8 @@
         </ul>
 
         <ul class="nav navbar-nav pull-right">
-          <% if cookies["user_id"].present? %>
-          <li><%= link_to User.find_by(id: cookies["user_id"]).username, user_path(cookies["user_id"]) %></li>
+          <% if session["user_id"].present? %>
+          <li><%= link_to User.find_by(id: session["user_id"]).username, user_path(session["user_id"]) %></li>
           <li><%= link_to "Sign Out", logout_path %></li>
           <% else %>
           <li><%= link_to "Sign Up", '/signup' %></li>

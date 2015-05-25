@@ -3,7 +3,7 @@ class TweetsController < ApplicationController
 	before_action :find_user
 
   def find_user
-    if (!cookies["user_id"].present?)
+    if (!session["user_id"].present?)
     	redirect_to login_path
     end
   end
@@ -16,7 +16,7 @@ class TweetsController < ApplicationController
 		tweet = Tweet.new
 		tweet.content = params[:post_tweet]
 		tweet.date = DateTime.now.to_i
-		tweet.user_id = cookies["user_id"]
+		tweet.user_id = session["user_id"]
 		tweet.save
 		redirect_to root_path
 	end
