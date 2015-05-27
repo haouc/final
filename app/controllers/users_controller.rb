@@ -1,7 +1,22 @@
 class UsersController < ApplicationController
 
+	before_action :require_user, :only => [:create, :edit, :update, :destroy]
+
+	def require_user
+		if session["user_id"].blank?
+			redirect_to logout_path, notice:"You need to login to do something."
+		end
+	end
+
+
 	def new
 		@user = User.new
+	end
+
+	def mytweets
+		@user = User.find_by(id: params[:id])
+		@tweets = Tweet.where(user_id: session["user_id"]).order('date desc')
+		
 	end
 
 	def create

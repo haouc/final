@@ -1,15 +1,35 @@
 class TweetsController < ApplicationController
 
-	before_action :find_user
+	before_action :require_user, :only => [:index, :create, :destroy, :edit, :update]
 
-  def find_user
-    if (!session["user_id"].present?)
-    	redirect_to login_path
-    end
-  end
+	def require_user
+		if session["user_id"].blank?
+			redirect_to login_path, notice: "You need login to do something."
+		end
+	end
+
+
+  # def find_user
+  #   if (!session["user_id"].present?)
+  #   	redirect_to login_path
+  #   end
+  # end
 	
 	def index
-		@tweets = Tweet.all.order('date desc')
+		if params["user_id"].present? && !params["fan_id"].present?
+			@tweets = Tweet.where(user_id: params["user_id"]).order('date desc')
+		
+		# elsif !params["user_id"].present? && params["fan_id"].present?
+		# 	# follow = Follow.where(fan_id: params["fan_id"])
+		# 	follow = Follow.where(fan_id: params["fan_id"])
+		# 	@tweets = Tweet.joins(follow).where(fan_id: params["fan_id"]).all.order('date desc')
+		# 	# @tweets = Tweet.includes(:follow).where("follows.fan_id = ?", params["fan_id"])
+		# 	# @tweets = @tweets.all.order('date desc')
+		
+
+		else
+			@tweets = Tweet.all.order('date desc')
+		end
 	end
 
 	def create

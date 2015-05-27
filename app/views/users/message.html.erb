@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-xs-1">
+    <!-- left mav -->
+  </div>
+  <div class="col-xs-8">
+    <div class="jumbotron">
+      <%= form_tag tweets_path, method:"post" do %>
+      <label for="post_tweet">What news do you want to share with others?</label>
+      <br>
+      <textarea name="post_tweet" class="post-tweet" rows="5"></textarea>
+      <button class="btn btn-success">POST</button>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- right nav bar -->
+  <div class="col-xs-3">
+    <% if session["user_id"].present? %>
+    <div class="jumbotron">
+      <%= image_tag(session["user_image"], class: "protrait")%>
+      <%= session["username"]%>
+      <hr>
+      <li><a href=""> Following </a></li>
+      <li><%= link_to "Follower", tweets_path(:fan_id => session["user_id"]) %></a></li>
+      <li><%= link_to "Tweets", tweets_path(:user_id => session["user_id"]) %></li>
+      <!-- <li><a href="/"> Tweets </a></li> -->
+    </div>
+    <% end %>
+  </div>
+</div>
+</div>
+
+
+
+<script>
+  $(function(){
+    $('.comment').click(function(){
+      $(".comment-list-"+$(this).attr("id")).toggle();
+    });
+  });
+</script>

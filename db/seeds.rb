@@ -27,6 +27,11 @@ User.create  id: 3,
              email: 'lingduokong@uchicago.edu',
              image: 'http://tp2.sinaimg.cn/1666978981/50/5723425429/0'
 
+Follow.delete_all
+
+Follow.create id: 1,
+              fan_id:  
+
 
 Tweet.delete_all
 

@@ -35,7 +35,8 @@
               <li><a href="">Message Center</a></li>
             </ul>
           </li>
-          <li><a href="">Message</a></li>
+          <!-- <li><a href="">Message</a></li> -->
+          <li><%= link_to "Message", user_path(session["user_id"]) %></li>
           <li><a href="">About</a></li>
           <li><a href="">Contact us</a></li>
         </ul>

@@ -12,6 +12,7 @@
       <% end %>
     </div>
     <!---list tweets -->
+
     <% @tweets.each do |tweet| %>
     <div class="jumbotron">
       <div class="row">
@@ -19,7 +20,7 @@
           <%= image_tag(User.find_by(id: tweet.user_id).image, class: "protrait")%>
         </div>
         <div class="col-xs-8">
-          <h4><%= User.find_by(id: tweet.user_id).username %></h4>
+          <h4><%= link_to User.find_by(id: tweet.user_id).username, tweets_path(:user_id => tweet.user_id) %></h4>
           <br>
           <%= tweet.content %>
           <br>
@@ -83,7 +84,7 @@
             <%= comment.content %>
             <br>
           </div>
-          <% if comment.user_id == cookies["user_id"].to_i %>
+          <% if comment.user_id == session["user_id"].to_i %>
           <div class="col-xs-1">
             <%= link_to 'Delete', tweet_comment_path(tweet.id ,comment.id), method: :delete %>
           </div>
@@ -94,6 +95,7 @@
       </div>
     </div>
     <% end %>
+    
   </div>
 
   <!-- right nav bar -->
@@ -103,9 +105,10 @@
       <%= image_tag(session["user_image"], class: "protrait")%>
       <%= session["username"]%>
       <hr>
-      <li>following</li>
-      <li>follower</li>
-      <li>tweets</li>
+      <li><a href=""> Following </a></li>
+      <li><%= link_to "Follower", tweets_path(:fan_id => session["user_id"]) %></a></li>
+      <li><%= link_to "Tweets", tweets_path(:user_id => session["user_id"]) %></li>
+      <!-- <li><a href="/"> Tweets </a></li> -->
     </div>
     <% end %>
   </div>
