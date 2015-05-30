@@ -1,1 +1,52 @@
-messages of <%= @user.username %>
+<div class="row">
+  <div class="col-xs-1" id="new_link">
+
+  </div>
+  <div class="col-xs-8">
+    <div class="jumbotron">
+      <%= form_tag user_messages_path, method:"post" do %>
+      <label for="sending message">Compose message?</label>
+      <br>
+      <textarea name="receiver" rows="1" cols="25" placeholder="Receiver Name"></textarea>
+      <br>
+      <!-- <textarea name="title" rows="1" cols="50" placeholder="Message Title"></textarea> -->
+      <br>
+      <textarea name="message" class="create message" rows="5" cols="90" placeholder="Message Body"></textarea>
+      <br>
+      <button class="btn btn-success">Send</button>
+      <% end %>
+    </div>
+
+    Messages Sent From <%= @user.username %>
+
+    <!---list messages -->
+    <% @messages.each do |msg| %>
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-xs-2">
+        <% if User.find_by_id(msg.receiver_id).image.present? %>
+          <%= image_tag(User.find_by_id(msg.receiver_id).image, class: "protrait")%>
+          <% end %>
+        </div>
+        <div class="col-xs-8">
+          <h4>          
+            <%= link_to User.find_by_id(msg.receiver_id).username, tweet_path(:user_id => msg.receiver_id) %>
+          </h4>
+          <br>
+
+          <%= msg.content %>
+          <br>
+          <small><%= Time.at(msg.date) %></small>
+        </div>
+
+        <div class="col-xs-1">
+          <%= link_to 'Delete', message_path(msg.id), method: :delete %>
+        </div>
+      
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+      
