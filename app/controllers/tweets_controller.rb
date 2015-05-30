@@ -12,7 +12,7 @@ class TweetsController < ApplicationController
 		@tweet = Tweet.find_by(id: params["id"])
 		@user = User.find_by(id: @tweet.user_id)
 		if @user.blank? || session[:user_id] != @user.id
-			redirect_to root_url, notice: "Nice try!"
+			redirect_to root_url, notice: "You need login!"
 		end
 	end
 	
