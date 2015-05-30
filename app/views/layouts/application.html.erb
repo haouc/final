@@ -15,10 +15,10 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
             <big>Tweet</big>
-            <sub><small>milestone_II</small></sub>
+            <sub><small>MPCS 52553 Web_Development</small></sub>
           </a>
         </div>
-        <ul class="nav navbar-nav" style="margin-left:30px">
+        <ul class="nav navbar-nav" style="margin-left:25px">
           <li><a href="/">Home</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -26,17 +26,20 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-            <% if session["user_id"] == nil %>
-              <li><a href="">Account Settings</a></li>
+              <% if !session["user_id"].present? %>
+                <li><a href="">Account Settings</a></li>
               <% else %>
-              <li><%= link_to "Account Settings", user_path(session["user_id"]) %></li>
+                <li><%= link_to "Account Settings", user_path(session["user_id"]) %></li>
               <% end %>
               <li><a href="">Account Safety</a></li>
               <li><a href="">Message Center</a></li>
             </ul>
           </li>
-          <!-- <li><a href="">Message</a></li> -->
-          <li><%= link_to "Message", user_path(session["user_id"]) %></li>
+          <% if session["user_id"] == nil %>
+          <li><a href="">Message</a></li>
+          <% else %>
+          <li><%= link_to "Messages", user_messages_path(session["user_id"]) %></li>
+          <% end %>
           <li><a href="">About</a></li>
           <li><a href="">Contact us</a></li>
         </ul>

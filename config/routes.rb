@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   resources :tweets do 
   	resources :comments
   end
-  resources :users
+  
+  resources :users do
+  	resources :follows
+    resources :messages
+  end
 
   get "/signup" => 'users#new'
   get "/login" => 'sessions#new'

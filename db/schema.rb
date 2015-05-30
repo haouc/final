@@ -61,10 +61,10 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "users", force: :cascade do |t|
     t.string  "username"
-    t.string  "password"
     t.string  "email"
     t.string  "image"
     t.integer "message_number"
+    t.string  "password_digest"
   end
 
 end

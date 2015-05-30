@@ -1,6 +1,6 @@
 User
   username: string
-  password: string
+  password_digest: string
   email: string
   image: string
   message_number: integer

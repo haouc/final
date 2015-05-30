@@ -1,6 +1,7 @@
 <div class="jumbotron">
 	<h2>Sign Up</h2>
 	<hr>
+
 	<% if @user.errors.any? %>
 	<ul class="errors" style="color:red">
 		<% @user.errors.full_messages.each do |msg| %>
@@ -26,9 +27,27 @@
 	<p>
 		<%= label_tag :password %>
 		<br>
-		<%= password_field_tag :password %>
+		<%= password_field_tag :password %> <span id="strength" ></span>
 	</p>
 
 	<%= button_tag "Sign Me Up!", class: "btn btn-success" %>
 	<% end %>
 </div>
+
+<script>
+$('#password').keyup(function () {
+		var len = $('#password').val().length;
+		if(len < 4){
+			$('#strength').text("week");
+			$('#strength').attr("class","week");
+		}
+		else if(len < 8){
+			$('#strength').text("medium");
+			$('#strength').attr("class","medium");
+		}
+		else {
+			$('#strength').text("strong");
+			$('#strength').attr("class","strong");
+		}
+	});
+</script>

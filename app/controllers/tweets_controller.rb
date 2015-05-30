@@ -1,35 +1,32 @@
 class TweetsController < ApplicationController
 
-	before_action :require_user, :only => [:index, :create, :destroy, :edit, :update]
-
-	def require_user
-		if session["user_id"].blank?
-			redirect_to login_path, notice: "You need login to do something."
+	before_action :find_user
+	def find_user
+		if (!session["user_id"].present?)
+			redirect_to login_path
 		end
 	end
 
-
-  # def find_user
-  #   if (!session["user_id"].present?)
-  #   	redirect_to login_path
-  #   end
-  # end
+	before_action :authorize, only: [:edit, :destroy, :update]
+	def authorize
+		@tweet = Tweet.find_by(id: params["id"])
+		@user = User.find_by(id: @tweet.user_id)
+		if @user.blank? || session[:user_id] != @user.id
+			redirect_to root_url, notice: "Nice try!"
+		end
+	end
 	
 	def index
-		if params["user_id"].present? && !params["fan_id"].present?
-			@tweets = Tweet.where(user_id: params["user_id"]).order('date desc')
-		
-		# elsif !params["user_id"].present? && params["fan_id"].present?
-		# 	# follow = Follow.where(fan_id: params["fan_id"])
-		# 	follow = Follow.where(fan_id: params["fan_id"])
-		# 	@tweets = Tweet.joins(follow).where(fan_id: params["fan_id"]).all.order('date desc')
-		# 	# @tweets = Tweet.includes(:follow).where("follows.fan_id = ?", params["fan_id"])
-		# 	# @tweets = @tweets.all.order('date desc')
-		
-
+		if params["user_id"].present?
+			@tweets = Tweet.where(user_id: params["user_id"])
 		else
-			@tweets = Tweet.all.order('date desc')
+			@tweets = Tweet.all
 		end
+		@tweets = @tweets.order('date desc').paginate(:per_page => 5, :page => params[:page])
+	end
+
+	def show
+		@tweet = Tweet.find_by(id: params["id"])
 	end
 
 	def create
@@ -42,7 +39,7 @@ class TweetsController < ApplicationController
 	end
 
 	def destroy
-		Tweet.find_by(id: params["id"]).delete
+		@tweet.delete
 		redirect_to root_path
 	end
 
@@ -51,11 +48,11 @@ class TweetsController < ApplicationController
 	end
 
 	def update
-		tweet = Tweet.find_by(id: params["id"])
-		tweet.content = params["update_tweet"]
-		tweet.image = params["image"]
-		tweet.date = DateTime.now.to_i
-		tweet.save
+		@tweet.content = params["update_tweet"]
+		@tweet.image = params["image"]
+		@tweet.date = DateTime.now.to_i
+		@tweet.save
 		redirect_to root_path
 	end
+
 end
