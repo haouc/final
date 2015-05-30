@@ -69,14 +69,14 @@
     <div class="jumbotron">
       <div class="row">
         <div class="col-xs-2">
-        <big>To: &nbsp</big>
-        <% if User.find_by_id(msg.receiver_id).image.present? %>
-          <%= image_tag(User.find_by_id(msg.receiver_id).image, class: "protrait")%>
+        <big>From: &nbsp</big>
+        <% if User.find_by_id(msg.sender_id).image.present? %>
+          <%= image_tag(User.find_by_id(msg.sender_id).image, class: "protrait")%>
         <% end %>
         </div>
         <div class="col-xs-8">
           <h4>          
-            <%= link_to User.find_by_id(msg.receiver_id).username, tweets_path(user_id: msg.receiver_id) %>
+            <%= link_to User.find_by_id(msg.sender_id).username, tweets_path(user_id: msg.receiver_id) %>
           </h4>
           <% if msg.is_read == false %>
         		<small style="color:red">(This is an un-read message.)</small>
