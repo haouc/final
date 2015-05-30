@@ -40,9 +40,9 @@
             <%= link_to User.find_by_id(msg.receiver_id).username, tweets_path(user_id: msg.receiver_id) %>
           </h4>
           <% if msg.is_read == false %>
-        		<small style="color:red">(This is an un-read message.)</small>
+        		<small style="color:red">(<%= User.find_by_id(msg.receiver_id).username %> hasn't read this message.)</small>
         	<% else %>
-        		<small style="color:red">(You have already read this message.)</small>
+        		<small style="color:red">(<%= User.find_by_id(msg.receiver_id).username %> has already read this message.)</small>
         	<% end %>
           <br>
           <%= msg.content %>
