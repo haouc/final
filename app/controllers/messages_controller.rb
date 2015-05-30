@@ -7,10 +7,20 @@ class MessagesController < ApplicationController
 		end
 	end
 
+
+	before_action :find_message, only: [:edit, :destroy, :update]
+	def find_message
+		if !Message.find_by_id(params["id"]).present?
+			redirect_to user_messages_path, notice:"The message is not existing!"
+		end
+	end
+
+
 	before_action :authorize, only: [:edit, :destroy, :update]
 	def authorize
 		@message = Message.find_by(id: params["id"])
-		@user = User.find_by(id: @message.sender_id)
+		# @user = User.find_by(id: @message.sender_id)
+		@user = User.find_by_id(session["user_id"])
 		if @user.blank? || session[:user_id] != @user.id
 			redirect_to root_url, notice: "You need login!"
 		end
@@ -32,22 +42,41 @@ class MessagesController < ApplicationController
 
 	def create
 		message = Message.new
-		message.receiver_id = User.find_by_username(params[:receiver]).id
-		message.content = params[:message]
-		message.date = DateTime.now.to_i
-		message.sender_id = session["user_id"]
-		message.is_read = false
-		if message.receiver_id.present?
+		if User.find_by_username(params[:receiver]).present?
+			message.receiver_id = User.find_by_username(params[:receiver]).id
+			message.content = params[:message]
+			message.date = DateTime.now.to_i
+			message.sender_id = session["user_id"]
+			message.is_read = false
 			message.save
-		# else
-		# 	rerender create, notice: "user is not exiting!"
+			redirect_to user_messages_path
+		else
+			redirect_to user_messages_path, notice: "No such user existing!"
 		end
-		redirect_to root_path
+
+		# message.content = params[:message]
+		# message.date = DateTime.now.to_i
+		# message.sender_id = session["user_id"]
+		# message.is_read = false
+		# if message.receiver_id.present?
+		# 	message.save
+
+		# end
+		# redirect_to user_messages_path
+		
+	end
+
+	def update
+		# @message.content = params["update_tweet"]
+		@message.date = DateTime.now.to_i
+		@message.is_read = true
+		@message.save
+		redirect_to user_messages_path
 	end
 
 	def destroy
 		@message.delete
-		redirect_to root_path
+		redirect_to user_messages_path
 	end
 
 end
