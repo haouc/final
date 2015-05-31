@@ -17,6 +17,17 @@ class TweetsController < ApplicationController
 	end
 	
 	def index
+		if params[:keyword].present?
+			if User.find_by(username: params[:keyword]).id.present?
+				userid = User.find_by(username: params[:keyword]).id
+				@tweets = Tweet.where("user_id LIKE ?", "%#{userid}")
+			else
+				redirect_to root_url, notice: "Search ID doesn't exist!"
+			end
+			@tweets = @tweets.order('date desc').paginate(:per_page => 5, :page => params[:page])
+			return
+		end
+			
 		if params["user_id"].present?
 			@tweets = Tweet.where(user_id: params["user_id"])
 		else
@@ -24,6 +35,16 @@ class TweetsController < ApplicationController
 		end
 		@tweets = @tweets.order('date desc').paginate(:per_page => 5, :page => params[:page])
 	end
+
+	# def search
+ #    if params["keyword"].present?
+ #    	@userid = User.find_by(username: params[:keyword]).id
+ #      @tweets = Tweet.where("user_id LIKE ?", "%#{@userid}")
+	# 	else
+	# 		@tweets = Tweet.all
+	# 	end
+	# 	@tweets = @tweets.order('date desc').paginate(:per_page => 5, :page => params[:page])
+	# end
 
 	def show
 		@tweet = Tweet.find_by(id: params["id"])

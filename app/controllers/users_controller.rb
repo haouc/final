@@ -26,6 +26,16 @@ class UsersController < ApplicationController
 		
 	end
 
+	def index
+    if params["keyword"].present?
+      @users = User.where("username LIKE ?", "%#{params[:keyword]}")
+    else
+      @users = User.all
+    end
+
+    @users = @users.order('username asc').limit(100)
+  end
+
 	def edit
 		@user = User.find_by(id: params[:id])
 	end
