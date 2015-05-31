@@ -26,12 +26,11 @@
             <!-- <br><small style="color:black">(<a href="" style="color:green">follow</a>/<a href="" style="color:red">unfollow</a>)</small> -->
             <br>
             <small ><%= link_to "follow", user_follows_path(:user_id => session["user_id"], :fan => session["user_id"], :star => tweet.user_id), method: "post" %>
-              
-              <% @uid = session["user_id"] %>
-              <% @sid = tweet.user_id %>
-              <% @flw_id = Follow.find_by_sql(%Q{SELECT id FROM follows f WHERE f.fan_id = @uid AND f.star_id = @sid}) %>
-              <%= link_to "unfollow", user_follow_path(:user_id => @uid, :id => @flw_id), method: "delete" %>
-
+    
+                  <% if Follow.find_by(fan_id: session["user_id"], star_id: tweet.user_id).present? %>
+                    <%= link_to "/ unfollow", user_follow_path(:user_id => session["user_id"], :id => Follow.find_by(fan_id: session["user_id"], star_id: tweet.user_id).id, method: "delete") %>
+                  <% end %>
+         
             </small>
           </h4>
           <br>

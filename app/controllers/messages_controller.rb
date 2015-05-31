@@ -53,16 +53,6 @@ class MessagesController < ApplicationController
 		else
 			redirect_to user_messages_path, notice: "No such user existing!"
 		end
-
-		# message.content = params[:message]
-		# message.date = DateTime.now.to_i
-		# message.sender_id = session["user_id"]
-		# message.is_read = false
-		# if message.receiver_id.present?
-		# 	message.save
-
-		# end
-		# redirect_to user_messages_path
 		
 	end
 

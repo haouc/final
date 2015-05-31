@@ -15,12 +15,13 @@ class FollowsController < ApplicationController
 		
 	end
 
+	# def show
+	# 	@follow = Follow.find_by(id: params["id"])
+	# end
+
 	def create
 		follow = Follow.new
-		# if params[:star] == session["user_id"]
-		# 	redirect_to root_path, notice: "You can't follow yourself!"
-		# 	return
-		# end
+
 		if User.find_by_id(params[:star]).present? && !Follow.find_by_star_id(params[:star]).present?
 			follow.star_id = params[:star]  
 			follow.fan_id = session["user_id"]
@@ -39,31 +40,13 @@ class FollowsController < ApplicationController
 		end
 	end
 
-	# def create
-	# 	follow = Follow.new
-
-	# 	if Follow.find_by_star_id(params[:star]).present?
-	# 		redirect_to root_path, notice: "You are already following this ID."
-
-	# 	elsif !User.find_by_id(params[:star]).present?
-	# 		redirect_to root_path, notice: "No such user existing!"
-
-	# 	elsif User.find_by_id(params[:star]).present? && !Follow.find_by_star_id(params[:star]).present?
-	# 		follow.star_id = params[:star]  
-	# 		follow.fan_id = session["user_id"]
-	# 		follow.save
-	# 		redirect_to root_path, notice: "You are following this ID successfully."
-	# 	end
-	# end
 
 	def destroy
 
-		# Message.find_by_id(msg_id).delete
 		if Follow.find_by_id(params[:id]).present?
 			Follow.find_by_id(params[:id]).delete
 		end
 		redirect_to root_path
 	end
-
 
 end
