@@ -121,7 +121,7 @@
         </div>
         <div class="col-xs-2">
           <%= Follow.where(fan_id: session["user_id"]).count%><br>
-          <%= Follow.where(fan_id: session["user_id"]).count%><br>
+          <%= Follow.where(star_id: session["user_id"]).count%><br>
           <%= Tweet.where(user_id: session["user_id"]).count%><br>
         </div>
       </div>
