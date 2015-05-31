@@ -31,7 +31,8 @@
               <% else %>
                 <li><%= link_to "Account Settings", user_path(session["user_id"]) %></li>
               <% end %>
-              <li><a href="">Account Safety</a></li>
+              <!-- <li><a href="">Account Safety</a></li> -->
+              <li><%= link_to "Account Safety", edit_user_path(session["user_id"])  %></li>
               <% if !session["user_id"].present? %>
                 <li><a href="">Message Center</a></li>
               <% else %>
