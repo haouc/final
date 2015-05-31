@@ -48,14 +48,12 @@
           <% else %>
           <li><%= link_to "Messages", user_messages_path(session["user_id"]) %></li>
           <% end %>
-          
-        
-            <li>
-              <%= form_tag tweets_url, :method => "get" do %>
-              <%= text_field_tag :keyword %>
-              <%= submit_tag "Search" %>
-              <% end %>
-            </li>
+          <li class="navbar-form">
+            <%= form_tag tweets_url, :method => "get" do %>
+            <%= text_field_tag :keyword %>
+            <%= submit_tag "Search" %>
+            <% end %>
+          </li>
         
 <!--           <li><a href="">About</a></li>
           <li><a href="">Contact us</a></li> -->
