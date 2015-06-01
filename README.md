@@ -1,5 +1,19 @@
 Final Project 
 
+######################################################
+
+Professor:
+
+This appplication has been deployed on AWS/AMI EC2. The ip is 52.24.87.201:3000
+
+Thank you.
+
+Hao 
+
+######################################################
+
+
+
 Here are the minimum requirements with points indicated.
 26 points total 
  
