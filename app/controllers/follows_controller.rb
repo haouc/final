@@ -15,10 +15,6 @@ class FollowsController < ApplicationController
 		
 	end
 
-	# def show
-	# 	@follow = Follow.find_by(id: params["id"])
-	# end
-
 	def create
 		follow = Follow.new
 

@@ -1,26 +1,33 @@
 
 <div class="col-xs-6">
 
-<% @user.followees.each do |followee| %>
+	<big style="color: green">I Follow</big><br>
 
-	<%= followee.username %>
-	<br>
-	<a href="">follow me</a>
-	<br>
+	<% @user.followees.each do |followee| %>
+	<ul>
+		<li>
+			<%= link_to followee.username, tweets_path(:user_id => User.find_by(username: followee.username)) %>
+			<br>
+		</li>
+	</ul>
 
-<% end %>
+	<% end %>
 	
 </div>
 
 <div class="col-cs-6">
 
-<% @user.followers.each do |follower| %>
+	<big style="color:red">Follow Me</big><br>
+	
+	
+	<% @user.followers.each do |follower| %>
+	<ul>
+		<li>
+			<%= link_to follower.username, tweets_path(:user_id => User.find_by(username: follower.username)) %>
+			<br>
+		</li>
+	</ul>
 
-	<%= follower.username %>
-	<br>
-	<a href="">I follow</a>
-	<br>
-
-<% end %> 
+	<% end %> 
 	
 </div>
