@@ -11,7 +11,7 @@
 	<% end %>
 
 	<%= form_tag users_path, method: "post" do %>
-
+	
 	<p>
 		<%= label_tag :username %><small style="color:red"> * </small>
 		<br>
@@ -31,12 +31,13 @@
 
 
 	<p>
-		<%= label_tag :image %> <small style="color:green">(optional)</small>
+		<%= label_tag :image %> <small style="color:green"> (optional)</small>
 		<br>
-		<%= text_field_tag :image %>
+		<%= text_field_tag :image, nil, :placeholder=>'enter url here' %>
 	</p>
 
 	<%= button_tag "Sign Me Up!", class: "btn btn-success" %>
+
 	<% end %>
 </div>
 
