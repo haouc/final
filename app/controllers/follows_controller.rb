@@ -22,7 +22,7 @@ class FollowsController < ApplicationController
 	def create
 		follow = Follow.new
 
-		if User.find_by_id(params[:star]).present? && !Follow.find_by_star_id(params[:star]).present?
+		if User.find_by_id(params[:star]).present? && !Follow.find_by(star_id: params[:star], fan_id: session["user_id"]).present?
 			follow.star_id = params[:star]  
 			follow.fan_id = session["user_id"]
 			if follow.star_id == follow.fan_id

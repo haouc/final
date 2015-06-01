@@ -19,7 +19,6 @@ class MessagesController < ApplicationController
 	before_action :authorize, only: [:edit, :destroy, :update]
 	def authorize
 		@message = Message.find_by(id: params["id"])
-		# @user = User.find_by(id: @message.sender_id)
 		@user = User.find_by_id(session["user_id"])
 		if @user.blank? || session[:user_id] != @user.id
 			redirect_to root_url, notice: "You need login!"
