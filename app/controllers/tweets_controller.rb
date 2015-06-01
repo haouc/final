@@ -18,7 +18,7 @@ class TweetsController < ApplicationController
 	
 	def index
 		if params[:keyword].present?
-			# if User.find_by(username: params[:keyword]).id.present?
+			
 			if User.where("username LIKE ?", "%#{params[:keyword]}").present?
 				userid = User.find_by(username: params[:keyword]).id
 				@tweets = Tweet.where("user_id LIKE ?", "%#{userid}")
@@ -29,7 +29,7 @@ class TweetsController < ApplicationController
 			@tweets = @tweets.order('date desc').paginate(:per_page => 5, :page => params[:page])
 			return
 		end
-			
+		
 		if params["user_id"].present?
 			@tweets = Tweet.where(user_id: params["user_id"])
 		else
