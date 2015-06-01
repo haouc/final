@@ -64,7 +64,7 @@
       <% if !@messages_in.present? %>
       <big> YOU HAVE NO MESSAGES AVAILABLE! </big>
       <% end %>
-      <br><big>YOU HAVE RECEIVED <%= @messages.count %> MESSAGES:</big>
+      <br><big>YOU HAVE RECEIVED <%= @messages_in.count %> MESSAGES:</big>
       <% @messages_in.each do |msg| %>
       <div class="jumbotron">
         <div class="row">
